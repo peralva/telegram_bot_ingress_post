@@ -1,0 +1,19 @@
+{
+  "name": "telegram_bot_ingress_post",
+  "version": "1.0.0",
+  "description": "Telegram Bot - Ingress Post",
+  "main": "index.js",
+  "scripts": {
+    "test": "START \"\" nodemon -i data.json --trace-warnings"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peralva/telegram_bot_ingress_post.git"
+  },
+  "author": "brunoperalva@hotmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/peralva/telegram_bot_ingress_post/issues"
+  },
+  "homepage": "https://github.com/peralva/telegram_bot_ingress_post#readme"
+}
