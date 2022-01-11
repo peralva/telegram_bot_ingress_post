@@ -19,7 +19,7 @@ module.exports = parameters => {
             );
         }
 
-        text += `\n<a href="tg://user?id=${votes[i]}">${global[token].users[votes[i]].data.first_name}</a>`;
+        text += `\n<a href="tg://user?id=${votes[i]}">${global.bots[token].users[votes[i]].data.first_name}</a>`;
     }
 
     return({

@@ -59,12 +59,12 @@ module.exports = async ctx => {
                         )
                         || (true
                             && message.votes.filter(element => true
-                                && typeof(global[token].users[element].parameters.faction) == 'string'
-                                && global[token].users[element].parameters.faction == 'enlightened'
+                                && typeof(global.bots[token].users[element].parameters.faction) == 'string'
+                                && global.bots[token].users[element].parameters.faction == 'enlightened'
                             ).length >= group.parameters.votes.enlightened
                             && message.votes.filter(element => true
-                                && typeof(global[token].users[element].parameters.faction) == 'string'
-                                && global[token].users[element].parameters.faction == 'resistance'
+                                && typeof(global.bots[token].users[element].parameters.faction) == 'string'
+                                && global.bots[token].users[element].parameters.faction == 'resistance'
                             ).length >= group.parameters.votes.resistance
                         )
                     ) {

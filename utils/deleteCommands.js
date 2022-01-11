@@ -11,12 +11,12 @@ module.exports = parameters => {
     let language = ctx.update.message.from.language_code;
 
     if(ctx.update.message.chat.type == 'private') {
-        data = global[token].users;
+        data = global.bots[token].users;
     } else if(false
         || ctx.update.message.chat.type == 'supergroup'
         || ctx.update.message.chat.type == 'group'
     ) {
-        data = global[token].groups;
+        data = global.bots[token].groups;
     }
 
     if(true

@@ -2,12 +2,12 @@ const fs = require('fs');
 const deleteCommands = require('./utils/deleteCommands');
 
 const index = bot => {
-    global[bot.telegram.token] = {};
+    global.bots[bot.telegram.token] = {};
 
-    if(fs.existsSync('./data.json')) {
-        global[bot.telegram.token] = JSON.parse(fs.readFileSync('./data.json'));
+    if(fs.existsSync(`${__dirname}/data.json`)) {
+        global.bots[bot.telegram.token] = require(`${__dirname}/data.json`);
     } else {
-        global[bot.telegram.token] = {
+        global.bots[bot.telegram.token] = {
             users: {},
             groups: {}
         };

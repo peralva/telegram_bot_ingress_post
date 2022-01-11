@@ -6,17 +6,17 @@ module.exports = parameters => {
         } = parameters;
     }
 
-    if(typeof(global[token].users[id]) != 'object') {
-        global[token].users[id] = {};
+    if(typeof(global.bots[token].users[id]) != 'object') {
+        global.bots[token].users[id] = {};
     }
 
-    if(typeof(global[token].users[id].parameters) != 'object') {
-        global[token].users[id].parameters = {};
+    if(typeof(global.bots[token].users[id].parameters) != 'object') {
+        global.bots[token].users[id].parameters = {};
     }
 
-    if(typeof(global[token].users[id].data) != 'object') {
-        global[token].users[id].data = {};
+    if(typeof(global.bots[token].users[id].data) != 'object') {
+        global.bots[token].users[id].data = {};
     }
 
-    return(global[token].users[id]);
+    return(global.bots[token].users[id]);
 }

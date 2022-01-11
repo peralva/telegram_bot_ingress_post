@@ -6,24 +6,24 @@ module.exports = parameters => {
         } = parameters;
     }
 
-    if(typeof(global[token].groups[id]) != 'object') {
-        global[token].groups[id] = {};
+    if(typeof(global.bots[token].groups[id]) != 'object') {
+        global.bots[token].groups[id] = {};
     }
 
-    if(typeof(global[token].groups[id].parameters) != 'object') {
-        global[token].groups[id].parameters = {};
+    if(typeof(global.bots[token].groups[id].parameters) != 'object') {
+        global.bots[token].groups[id].parameters = {};
     }
 
-    if(typeof(global[token].groups[id].parameters.votes) != 'object') {
-        global[token].groups[id].parameters.votes = {
+    if(typeof(global.bots[token].groups[id].parameters.votes) != 'object') {
+        global.bots[token].groups[id].parameters.votes = {
             enlightened: 0,
             resistance: 0
         };
     }
 
-    if(typeof(global[token].groups[id].messages) != 'object') {
-        global[token].groups[id].messages = {};
+    if(typeof(global.bots[token].groups[id].messages) != 'object') {
+        global.bots[token].groups[id].messages = {};
     }
 
-    return(global[token].groups[id]);
+    return(global.bots[token].groups[id]);
 }

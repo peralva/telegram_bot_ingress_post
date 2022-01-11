@@ -25,8 +25,8 @@ module.exports = parameters => {
         day = String(day);
     }
 
-    const pathData = `./data.json`;
-    const pathBackupDirectoryData = `../../../backups/telegram_bots/bots/${token.replace(':', '_')}`;
+    const pathData = `${__dirname}/../data.json`;
+    const pathBackupDirectoryData = `${__dirname}/../backups/`;
     const backupFileData = `data - ${year}-${month}-${day}.json`;
 
     if(!fs.existsSync(pathBackupDirectoryData)) {
@@ -37,5 +37,5 @@ module.exports = parameters => {
         fs.copyFileSync(pathData, `${pathBackupDirectoryData}/${backupFileData}`);
     }
 
-    fs.writeFileSync(pathData, JSON.stringify(global[token], null, '    '));
+    fs.writeFileSync(pathData, JSON.stringify(global.bots[token], null, '    '));
 }
