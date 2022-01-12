@@ -105,4 +105,4 @@ dist
 
 # custom
 package-lock.json
-data.json
+data*.json
