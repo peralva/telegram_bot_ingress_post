@@ -2,6 +2,10 @@ const fs = require('fs');
 const deleteCommands = require('./utils/deleteCommands');
 
 const index = bot => {
+    if(typeof(global.bots) != 'object') {
+        global.bots = {};
+    }
+
     global.bots[bot.telegram.token] = {};
 
     if(fs.existsSync(`${__dirname}/data.json`)) {
@@ -29,10 +33,14 @@ const index = bot => {
     bot.command('delete_commands',  ctx => {require('./commands/delete_commands')(ctx);                         });
     bot.command('apagar_comandos',  ctx => {require('./commands/delete_commands')(ctx);                         });
 
+    bot.command('link_channel',     ctx => {require('./commands/link_channel'   )(ctx); deleteCommands({ctx});  });
+    bot.command('vincular_canal',   ctx => {require('./commands/link_channel'   )(ctx); deleteCommands({ctx});  });
+
     bot.command('new_post',         ctx => {require('./commands/new_post'       )(ctx); deleteCommands({ctx});  });
     bot.command('novo_post',        ctx => {require('./commands/new_post'       )(ctx); deleteCommands({ctx});  });
 
-    bot.on('callback_query', require('./on/callback_query'));
+    bot.on('callback_query' , require('./on/callback_query' ));
+    bot.on('channel_post'   , require('./on/channel_post'   ));
 }
 
 module.exports = index;

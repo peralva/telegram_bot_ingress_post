@@ -21,6 +21,10 @@ module.exports = parameters => {
         };
     }
 
+    if(typeof(global.bots[token].groups[id].parameters.channels) != 'object') {
+        global.bots[token].groups[id].parameters.channels = [];
+    }
+
     if(typeof(global.bots[token].groups[id].messages) != 'object') {
         global.bots[token].groups[id].messages = {};
     }

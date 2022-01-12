@@ -9,9 +9,9 @@ module.exports = ctx => {
         text = (''
             + `<b>${translateText({language, text: 'List of individual commands'})}:</b>\n`
             + '\n'
-            + `/change_faction: ${translateText({language, text: 'Change faction'})}.\n`
+            + `${translateText({language, text: '/change_faction: Change faction'})}.\n`
             + '\n'
-            + `/delete_commands: ${translateText({language, text: 'Enable to not keep chat command history (delete message permission required)'})}.\n`
+            + `${translateText({language, text: '/delete_commands: Enable to not keep chat command history (delete message permission required)'})}.\n`
             + '\n'
             + '\n'
             + `<b>${translateText({language, text: 'For more commands, add me to a group and type /help'})}.</b>`
@@ -23,11 +23,13 @@ module.exports = ctx => {
         text = (''
             + `<b>${translateText({language, text: 'Group command list'})}:</b>\n`
             + '\n'
-            + `/change_votes: ${translateText({language, text: 'Changes the amount of votes needed to publish'})}.\n`
+            + `${translateText({language, text: '/change_votes: Changes the amount of votes needed to publish'})}.\n`
             + '\n'
-            + `/delete_commands: ${translateText({language, text: 'Enable to not keep chat command history (delete message permission required)'})}.\n`
+            + `${translateText({language, text: '/delete_commands: Enable to not keep chat command history (delete message permission required)'})}.\n`
             + '\n'
-            + `/new_post: ${translateText({language, text: 'Reply to a message with this command to put it to a vote'})}.\n`
+            + `${translateText({language, text: "/link_channel: Use to link the group to a channel. You can also use Telegram's native link"})}.\n`
+            + '\n'
+            + `${translateText({language, text: '/new_post: Reply to a message with this command to put it to a vote'})}.\n`
             + '\n'
             + '\n'
             + `<b>${translateText({language, text: 'For more commands send me /help in private'})}.</b>`

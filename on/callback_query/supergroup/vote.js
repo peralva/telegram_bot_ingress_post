@@ -70,14 +70,17 @@ module.exports = async ctx => {
                     ) {
                         let {linked_chat_id} = await ctx.getChat();
             
-                        if(typeof(linked_chat_id) != 'number') {
+                        if(true
+                            && group.parameters.channels.length == 0
+                            && typeof(linked_chat_id) != 'number'
+                        ) {
                             text1 = (''
                                 + '\n'
-                                + `\n${translateText({language, text: 'Need to link the group to a channel'})}.`
+                                + `\n${translateText({language, text: 'Need to link the group to a channel. Use the /link_channel command or use the native Telegram link'})}.`
                             );
                         } else {
                             await ctx.telegram.copyMessage(
-                                linked_chat_id,
+                                group.parameters.channels.length > 0 ? group.parameters.channels[0] : linked_chat_id,
                                 callback_query.message.chat.id,
                                 ctx.update.callback_query.message.reply_to_message.message_id
                             ).then(() => {
@@ -89,6 +92,7 @@ module.exports = async ctx => {
                                 message.posted = true;
                                 button = false;
                             }).catch(err => {
+console.error(err)
                                 if(!err.response.ok) {
                                     if(err.response.error_code == 403) {
                                         text1 = (''
