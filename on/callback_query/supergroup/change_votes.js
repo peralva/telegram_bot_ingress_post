@@ -39,8 +39,8 @@ module.exports = ctx => {
                 (''
                     + `${translateText({language, text: 'Number of votes changed'})}.\n`
                     + '\n'
-                    + `${translateText({language, text: 'Enlightened'})}: <b>${enlightened}</b>\n`
-                    + `${translateText({language, text: 'Resistance'})}: <b>${resistance}</b>`
+                    + `\u{1F7E2} ${translateText({language, text: 'Enlightened'})}: <b>${enlightened}</b>\n`
+                    + `\u{1F535} ${translateText({language, text: 'Resistance'})}: <b>${resistance}</b>`
                 ),
                 {parse_mode: 'HTML'}
             );

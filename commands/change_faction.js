@@ -36,11 +36,11 @@ module.exports = ctx => {
             inline_keyboard: [
                 [
                     {
-                        text: translateText({language, text: 'Enlightened'}),
+                        text: translateText({language, text: '\u{1F7E2} Enlightened'}),
                         callback_data: 'enlightened'
                     },
                     {
-                        text: translateText({language, text: 'Resistance'}),
+                        text: translateText({language, text: '\u{1F535} Resistance'}),
                         callback_data: 'resistance'
                     }
                 ]

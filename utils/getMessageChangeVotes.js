@@ -13,8 +13,8 @@ module.exports = parameters => {
         + `${translateText({language, text: 'For the vote not to consider the faction, inform the amount of votes in one of the factions leave the other with'})} 0.\n`
         + '\n'
         + `<b>${translateText({language, text: 'Current vote count'})}:</b>\n`
-        + `${translateText({language, text: 'Enlightened'})}: <b>${enlightened}</b>\n`
-        + `${translateText({language, text: 'Resistance'})}: <b>${resistance}</b>`
+        + `\u{1F7E2} ${translateText({language, text: 'Enlightened'})}: <b>${enlightened}</b>\n`
+        + `\u{1F535} ${translateText({language, text: 'Resistance'})}: <b>${resistance}</b>`
     );
 
     let votes = {
@@ -42,7 +42,7 @@ module.exports = parameters => {
         inline_keyboard: [
             [
                 {
-                    text: `${translateText({language, text: 'Enlightened'})} +`,
+                    text: `\u{1F7E2} ${translateText({language, text: 'Enlightened'})} +`,
                     callback_data: JSON.stringify(
                         {
                             change_votes: {
@@ -55,7 +55,7 @@ module.exports = parameters => {
             ],
             [
                 {
-                    text: `${translateText({language, text: 'Resistance'})} +`,
+                    text: `\u{1F535} ${translateText({language, text: 'Resistance'})} +`,
                     callback_data: JSON.stringify(
                         {
                             change_votes: {
@@ -85,7 +85,7 @@ module.exports = parameters => {
 
     if(enlightened > 0) {
         reply_markup.inline_keyboard[0].splice(0, 0, {
-            text: `${translateText({language, text: 'Enlightened'})} -`,
+            text: `\u{1F7E2} ${translateText({language, text: 'Enlightened'})} -`,
             callback_data: JSON.stringify(
                 {
                     change_votes: {
@@ -99,7 +99,7 @@ module.exports = parameters => {
 
     if(resistance > 0) {
         reply_markup.inline_keyboard[1].splice(0, 0, {
-            text: `${translateText({language, text: 'Resistance'})} -`,
+            text: `\u{1F535} ${translateText({language, text: 'Resistance'})} -`,
             callback_data: JSON.stringify(
                 {
                     change_votes: {
