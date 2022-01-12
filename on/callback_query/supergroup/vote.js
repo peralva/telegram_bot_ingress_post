@@ -2,6 +2,7 @@ const translateText = require('../../../../../utils/translateText');
 const getGroup = require('../../../utils/getGroup');
 const getMessageVote = require('../../../utils/getMessageVote');
 const getUser = require('../../../utils/getUser');
+const setUserData = require('../../../utils/setUserData');
 const recordData = require('../../../utils/recordData');
 
 module.exports = async ctx => {
@@ -44,8 +45,7 @@ module.exports = async ctx => {
                 ) {
                     url = `t.me/${ctx.botInfo.username}?start=change_faction`;
                 } else {
-                    user.data = {...callback_query.from};
-                    delete(user.data.id);
+                    setUserData({token, data: callback_query.from});
 
                     post.votes.push(callback_query.from.id);
 
@@ -71,44 +71,54 @@ module.exports = async ctx => {
                             )
                         )
                     ) {
-                        let {linked_chat_id} = await ctx.getChat();
-            
-                        if(true
-                            && group.parameters.channels.length == 0
-                            && typeof(linked_chat_id) != 'number'
-                        ) {
-                            text1 = (''
-                                + '\n'
-                                + `\n${translateText({language, text: 'Need to link the group to a channel. Use the /link_channel command or use the native Telegram link'})}.`
-                            );
-                        } else {
-                            await ctx.telegram.copyMessage(
-                                group.parameters.channels.length > 0 ? group.parameters.channels[0].value : linked_chat_id,
-                                callback_query.message.chat.id,
-                                ctx.update.callback_query.message.reply_to_message.message_id
-                            ).then(() => {
+                        let administratorVoted;
+
+                        await ctx.getChatAdministrators().then(result => {
+                            if(result.findIndex(element => post.votes.includes(element.user.id)) > -1) {
+                                administratorVoted = true;
+                            }
+                        });
+
+                        if(administratorVoted) {
+                            let {linked_chat_id} = await ctx.getChat();
+                
+                            if(true
+                                && group.parameters.channels.length == 0
+                                && typeof(linked_chat_id) != 'number'
+                            ) {
                                 text1 = (''
                                     + '\n'
-                                    + `\n<b>${translateText({language, text: 'Published post'})}</b>`
+                                    + `\n${translateText({language, text: 'Need to link the group to a channel. Use the /link_channel command or use the native Telegram link'})}.`
                                 );
+                            } else {
+                                await ctx.telegram.copyMessage(
+                                    group.parameters.channels.length > 0 ? group.parameters.channels[0].value : linked_chat_id,
+                                    callback_query.message.chat.id,
+                                    ctx.update.callback_query.message.reply_to_message.message_id
+                                ).then(() => {
+                                    text1 = (''
+                                        + '\n'
+                                        + `\n<b>${translateText({language, text: 'Published post'})}</b>`
+                                    );
 
-                                post.posted = true;
-                                button = false;
-                            }).catch(err => {
-                                if(!err.response.ok) {
-                                    if(err.response.error_code == 403) {
-                                        text1 = (''
-                                            + '\n'
-                                            + `\n${translateText({language, text: 'I need to be a channel member to post messages'})}.`
-                                        );
-                                    } else if(err.response.error_code == 400) {
-                                        text1 = (''
-                                            + '\n'
-                                            + `\n${translateText({language, text: "I'm not allowed to post messages on the channel"})}.`
-                                        );
+                                    post.posted = true;
+                                    button = false;
+                                }).catch(err => {
+                                    if(!err.response.ok) {
+                                        if(err.response.error_code == 403) {
+                                            text1 = (''
+                                                + '\n'
+                                                + `\n${translateText({language, text: 'I need to be a channel member to post messages'})}.`
+                                            );
+                                        } else if(err.response.error_code == 400) {
+                                            text1 = (''
+                                                + '\n'
+                                                + `\n${translateText({language, text: "I'm not allowed to post messages on the channel"})}.`
+                                            );
+                                        }
                                     }
-                                }
-                            });
+                                });
+                            }
                         }
                     }
                 }

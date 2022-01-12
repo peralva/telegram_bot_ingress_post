@@ -51,6 +51,8 @@ module.exports = ctx => {
     }
 
     if(ctx.update.message.from.id == ctx.update.message.reply_to_message.from.id) {
+        setUserData({token, data: ctx.update.message.from});
+
         let {text, reply_markup} = getMessageVote({
             language,
             token,
