@@ -1,4 +1,6 @@
 const translateText = require("../../../utils/translateText");
+const getGroup = require("../utils/getGroup");
+const getUser = require("../utils/getUser");
 
 module.exports = parameters => {
     if(Object.prototype.toString.call(parameters) == '[object Object]') {
@@ -10,22 +12,25 @@ module.exports = parameters => {
     let token = ctx.tg.token;
     let language = ctx.update.message.from.language_code;
 
+    let deleteCommand;
+
     if(ctx.update.message.chat.type == 'private') {
-        data = global.bots[token].users;
-    } else if(false
-        || ctx.update.message.chat.type == 'supergroup'
-        || ctx.update.message.chat.type == 'group'
-    ) {
-        data = global.bots[token].groups;
+        let user = getUser({token, id: ctx.update.message.chat.id});
+
+        deleteCommand = user.parameters.delete_commands;
+    } else if(ctx.update.message.chat.type.includes('group')) {
+        let group = getGroup({token, id: ctx.update.message.chat.id});
+
+        deleteCommand = (true
+            && group.parameters.delete_commands.length > 0
+            && group.parameters.delete_commands[0].value
+        );
     }
 
-    if(true
-        && typeof(data[ctx.update.message.chat.id]) == 'object'
-        && typeof(data[ctx.update.message.chat.id].parameters) == 'object'
-        && data[ctx.update.message.chat.id].parameters.delete_commands
-    ) {
+    if(deleteCommand) {
         ctx.deleteMessage(ctx.update.message.message_id).catch(err => {
             if(true
+                && ctx.update.message.chat.type.includes('group')
                 && !err.response.ok
                 && err.response.error_code == 400
             ) {

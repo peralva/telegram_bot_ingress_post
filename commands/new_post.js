@@ -16,9 +16,12 @@ module.exports = ctx => {
 
     let group = getGroup({token, id: ctx.update.message.chat.id});
 
-    if(true
-        && group.parameters.votes.enlightened == 0
-        && group.parameters.votes.resistance == 0
+    if(false
+        || group.parameters.votes.length == 0
+        || (true
+            && group.parameters.votes[0].value.enlightened == 0
+            && group.parameters.votes[0].value.resistance == 0
+        )
     ) {
         replyWithHTML({
             ctx,

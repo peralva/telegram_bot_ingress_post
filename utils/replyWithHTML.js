@@ -1,3 +1,6 @@
+const getGroup = require("./getGroup");
+const getUser = require("./getUser");
+
 module.exports = parameters => {
     if(Object.prototype.toString.call(parameters) == '[object Object]') {
         var {
@@ -8,22 +11,23 @@ module.exports = parameters => {
     }
 
     let token = ctx.tg.token;
-    let data;
+
+    let deleteCommand;
 
     if(ctx.update.message.chat.type == 'private') {
-        data = global.bots[token].users;
-    } else if(false
-        || ctx.update.message.chat.type == 'supergroup'
-        || ctx.update.message.chat.type == 'group'
-    ) {
-        data = global.bots[token].groups;
+        let user = getUser({token, id: ctx.update.message.chat.id});
+
+        deleteCommand = user.parameters.delete_commands;
+    } else if(ctx.update.message.chat.type.includes('group')) {
+        let group = getGroup({token, id: ctx.update.message.chat.id});
+
+        deleteCommand = (true
+            && group.parameters.delete_commands.length > 0
+            && group.parameters.delete_commands[0].value
+        );
     }
 
-    if(false
-        || typeof(data[ctx.update.message.chat.id]) != 'object'
-        || typeof(data[ctx.update.message.chat.id].parameters) != 'object'
-        || !data[ctx.update.message.chat.id].parameters.delete_commands
-    ) {
+    if(!deleteCommand) {
         extra.reply_to_message_id = ctx.update.message.message_id;
     }
 

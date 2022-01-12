@@ -6,6 +6,10 @@ module.exports = parameters => {
         } = parameters;
     }
 
+    if(typeof(global.bots[token].groups) != 'object') {
+        global.bots[token].groups = {};
+    }
+
     if(typeof(global.bots[token].groups[id]) != 'object') {
         global.bots[token].groups[id] = {};
     }
@@ -14,11 +18,12 @@ module.exports = parameters => {
         global.bots[token].groups[id].parameters = {};
     }
 
+    if(typeof(global.bots[token].groups[id].parameters.delete_commands) != 'object') {
+        global.bots[token].groups[id].parameters.delete_commands = [];
+    }
+
     if(typeof(global.bots[token].groups[id].parameters.votes) != 'object') {
-        global.bots[token].groups[id].parameters.votes = {
-            enlightened: 0,
-            resistance: 0
-        };
+        global.bots[token].groups[id].parameters.votes = [];
     }
 
     if(typeof(global.bots[token].groups[id].parameters.channels) != 'object') {

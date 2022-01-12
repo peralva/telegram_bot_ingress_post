@@ -2,6 +2,7 @@ const translateText = require('../../../../../utils/translateText');
 const getGroup = require('../../../utils/getGroup');
 const getMessageChangeVotes = require('../../../utils/getMessageChangeVotes');
 const recordData = require('../../../utils/recordData');
+const setUserData = require('../../../utils/setUserData');
 
 module.exports = ctx => {
     let language = ctx.update.callback_query.from.language_code;
@@ -22,7 +23,17 @@ module.exports = ctx => {
         let {enlightened, resistance, save}  = ctx.update.callback_query.data;
 
         if(save) {
-            group.parameters.votes = {enlightened, resistance};
+            setUserData({token, data: ctx.update.callback_query.from});
+
+            group.parameters.votes.splice(
+                0,
+                0,
+                {
+                    value: {enlightened, resistance},
+                    user: ctx.update.callback_query.from.id,
+                    date: new Date()
+                }
+            );
 
             ctx.editMessageText(
                 (''

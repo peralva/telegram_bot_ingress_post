@@ -39,8 +39,8 @@ module.exports = async ctx => {
             if(index == -1) {
                 if(true
                     && typeof(user.parameters.faction) != 'string'
-                    && group.parameters.votes.enlightened > 0
-                    && group.parameters.votes.resistance > 0
+                    && group.parameters.votes[0].value.enlightened > 0
+                    && group.parameters.votes[0].value.resistance > 0
                 ) {
                     url = `t.me/${ctx.botInfo.username}?start=change_faction`;
                 } else {
@@ -52,20 +52,20 @@ module.exports = async ctx => {
                     if(false
                         || (true
                             && (false
-                                || group.parameters.votes.enlightened == 0
-                                || group.parameters.votes.resistance == 0
+                                || group.parameters.votes[0].value.enlightened == 0
+                                || group.parameters.votes[0].value.resistance == 0
                             )
-                            && message.votes.length >= group.parameters.votes.enlightened + group.parameters.votes.resistance
+                            && message.votes.length >= group.parameters.votes[0].value.enlightened + group.parameters.votes[0].value.resistance
                         )
                         || (true
                             && message.votes.filter(element => true
                                 && typeof(global.bots[token].users[element].parameters.faction) == 'string'
                                 && global.bots[token].users[element].parameters.faction == 'enlightened'
-                            ).length >= group.parameters.votes.enlightened
+                            ).length >= group.parameters.votes[0].value.enlightened
                             && message.votes.filter(element => true
                                 && typeof(global.bots[token].users[element].parameters.faction) == 'string'
                                 && global.bots[token].users[element].parameters.faction == 'resistance'
-                            ).length >= group.parameters.votes.resistance
+                            ).length >= group.parameters.votes[0].value.resistance
                         )
                     ) {
                         let {linked_chat_id} = await ctx.getChat();
@@ -80,7 +80,7 @@ module.exports = async ctx => {
                             );
                         } else {
                             await ctx.telegram.copyMessage(
-                                group.parameters.channels.length > 0 ? group.parameters.channels[0] : linked_chat_id,
+                                group.parameters.channels.length > 0 ? group.parameters.channels[0].value : linked_chat_id,
                                 callback_query.message.chat.id,
                                 ctx.update.callback_query.message.reply_to_message.message_id
                             ).then(() => {

@@ -11,10 +11,7 @@ const index = bot => {
     if(fs.existsSync(`${__dirname}/data.json`)) {
         global.bots[bot.telegram.token] = require(`${__dirname}/data.json`);
     } else {
-        global.bots[bot.telegram.token] = {
-            users: {},
-            groups: {}
-        };
+        global.bots[bot.telegram.token] = {};
     }
 
     // require('./utils/setCommands')({telegram: bot.telegram});
@@ -39,8 +36,8 @@ const index = bot => {
     bot.command('new_post',         ctx => {require('./commands/new_post'       )(ctx); deleteCommands({ctx});  });
     bot.command('novo_post',        ctx => {require('./commands/new_post'       )(ctx); deleteCommands({ctx});  });
 
-    bot.on('callback_query' , require('./on/callback_query' ));
-    bot.on('channel_post'   , require('./on/channel_post'   ));
+    bot.on('callback_query',    require('./on/callback_query' ));
+    bot.on('channel_post',      require('./on/channel_post'   ));
 }
 
 module.exports = index;
@@ -48,8 +45,7 @@ module.exports = index;
 if(process.env.NODE_ENV == 'developer') {
     const { Telegraf } = require('telegraf');
 
-    let token = process.cwd();
-    token = token.substring(token.length, token.length - 45).replace('_', ':');
+    let token = __dirname.substring(__dirname.lastIndexOf('\\') + 1).replace('_', ':');
 
     const bot = new Telegraf(token);
 

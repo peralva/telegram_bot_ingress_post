@@ -16,7 +16,14 @@ module.exports = ctx => {
 
     let group = getGroup({token, id: ctx.update.message.chat.id});
 
-    let {enlightened, resistance} = group.parameters.votes;
+    let enlightened;
+    let resistance;
+
+    if(group.parameters.votes.length > 0) {
+        ({enlightened, resistance} = group.parameters.votes[0].value);
+    } else {
+        enlightened = resistance = 0;
+    }
 
     let {text, reply_markup} = getMessageChangeVotes({enlightened, resistance, language});
 

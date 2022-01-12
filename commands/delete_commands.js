@@ -1,55 +1,59 @@
 const translateText = require("../../../utils/translateText");
+const getGroup = require("../utils/getGroup");
+const getUser = require("../utils/getUser");
 const recordData = require("../utils/recordData");
+const setUserData = require("../utils/setUserData");
 
 module.exports = async ctx => {
     let language = ctx.update.message.from.language_code;
+    let id = ctx.update.message.chat.id;
     let token = ctx.tg.token;
-    let data;
-    let ok;
+
+    let enabled;
 
     if(ctx.update.message.chat.type == 'private') {
-        data = global.bots[token].users;
-    } else if(false
-        || ctx.update.message.chat.type == 'supergroup'
-        || ctx.update.message.chat.type == 'group'
-    ) {
-        data = global.bots[token].groups;
-    }
+        let user = getUser({token, id});
 
-    if(typeof(data[ctx.update.message.chat.id]) != 'object') {
-        data[ctx.update.message.chat.id] = {};
-    }
+        enabled = !user.parameters.delete_commands;
 
-    if(typeof(data[ctx.update.message.chat.id].parameters) != 'object') {
-        data[ctx.update.message.chat.id].parameters = {};
-    }
+        user.parameters.delete_commands = enabled;
+    } else if(ctx.update.message.chat.type.includes('group')) {
+        let group = getGroup({token, id});
 
-    if(ctx.update.message.chat.type == 'private') {
-        ok = true;
-    } else if(false
-        || ctx.update.message.chat.type == 'supergroup'
-        || ctx.update.message.chat.type == 'group'
-    ) {
+        let ok;
+
         await ctx.getChatAdministrators().then(result => {
             if(result.findIndex(element => element.user.id == ctx.update.message.from.id) > -1) {
                 ok = true;
             }
         });
-    }
 
-    if(!ok) {
-        ctx.replyWithHTML(
-            `${translateText({language, text: 'Only administrators can change this parameter. If you are an administrator, you need to uncheck the anonymous option so that I can identify you'})}.`,
-            {reply_to_message_id: ctx.update.message.message_id}
+        if(!ok) {
+            ctx.replyWithHTML(
+                `${translateText({language, text: 'Only administrators can change this parameter. If you are an administrator, you need to uncheck the anonymous option so that I can identify you'})}.`,
+                {reply_to_message_id: ctx.update.message.message_id}
+            );
+
+            return;
+        }
+
+        enabled = group.parameters.delete_commands.length == 0 || !group.parameters.delete_commands[0].value;
+
+        setUserData({token, data: ctx.update.message.from});
+
+        group.parameters.delete_commands.splice(
+            0,
+            0,
+            {
+                value: enabled,
+                user: ctx.update.message.from.id,
+                date: ctx.update.message.date
+            }
         );
-
-        return;
     }
-
-    data[ctx.update.message.chat.id].parameters.delete_commands = !data[ctx.update.message.chat.id].parameters.delete_commands;
 
     ctx.replyWithHTML(
-        `${translateText({language, text: 'Configuration'})} <b>${translateText({language, text: data[ctx.update.message.chat.id].parameters.delete_commands ? 'enabled' : 'disabled'})}</b>.`,
+        `${translateText({language, text: 'Configuration'})} <b>${translateText({language, text: enabled ? 'enabled' : 'disabled'})}</b>.`,
         {reply_to_message_id: ctx.update.message.message_id}
     );
 

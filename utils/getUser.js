@@ -6,6 +6,10 @@ module.exports = parameters => {
         } = parameters;
     }
 
+    if(typeof(global.bots[token].users) != 'object') {
+        global.bots[token].users = {};
+    }
+
     if(typeof(global.bots[token].users[id]) != 'object') {
         global.bots[token].users[id] = {};
     }

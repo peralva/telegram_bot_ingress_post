@@ -24,7 +24,10 @@ module.exports = async ctx => {
         );
 
         let group = getGroup({token, id: text[1]});
-        group.parameters.channels[0] = ctx.update.channel_post.chat.id;
+        group.parameters.channels[0] = {
+            value: ctx.update.channel_post.chat.id,
+            date: ctx.update.channel_post.date
+        };
 
         recordData({token});
     }
