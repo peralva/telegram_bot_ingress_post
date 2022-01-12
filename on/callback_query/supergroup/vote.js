@@ -38,7 +38,18 @@ module.exports = async ctx => {
             let index = post.votes.indexOf(callback_query.from.id);
 
             if(index == -1) {
-                if(true
+                if(false
+                    || group.parameters.votes.length == 0
+                    || (true
+                        && group.parameters.votes[0].value.enlightened == 0
+                        && group.parameters.votes[0].value.resistance == 0
+                    )
+                ) {
+                    text1 = (''
+                        + '\n'
+                        + `\n${translateText({language, text: 'Vote parameter not configured. Type /change_votes to configure'})}.`
+                    );
+                } else if(true
                     && typeof(user.parameters.faction) != 'string'
                     && group.parameters.votes[0].value.enlightened > 0
                     && group.parameters.votes[0].value.resistance > 0
