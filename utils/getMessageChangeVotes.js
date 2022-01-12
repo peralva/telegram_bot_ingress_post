@@ -45,7 +45,7 @@ module.exports = parameters => {
                     text: `${translateText({language, text: 'Enlightened'})} +`,
                     callback_data: JSON.stringify(
                         {
-                            changeVotes: {
+                            change_votes: {
                                 enlightened: votes.enlightened['+'],
                                 resistance
                             }
@@ -58,7 +58,7 @@ module.exports = parameters => {
                     text: `${translateText({language, text: 'Resistance'})} +`,
                     callback_data: JSON.stringify(
                         {
-                            changeVotes: {
+                            change_votes: {
                                 enlightened,
                                 resistance: votes.resistance['+']
                             }
@@ -71,7 +71,7 @@ module.exports = parameters => {
                     text: translateText({language, text: 'Save'}),
                     callback_data: JSON.stringify(
                         {
-                            changeVotes: {
+                            change_votes: {
                                 enlightened,
                                 resistance,
                                 save: true
@@ -88,7 +88,7 @@ module.exports = parameters => {
             text: `${translateText({language, text: 'Enlightened'})} -`,
             callback_data: JSON.stringify(
                 {
-                    changeVotes: {
+                    change_votes: {
                         enlightened: votes.enlightened['-'],
                         resistance
                     }
@@ -102,7 +102,7 @@ module.exports = parameters => {
             text: `${translateText({language, text: 'Resistance'})} -`,
             callback_data: JSON.stringify(
                 {
-                    changeVotes: {
+                    change_votes: {
                         enlightened,
                         resistance: votes.resistance['-']
                     }

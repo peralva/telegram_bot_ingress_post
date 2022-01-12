@@ -1,17 +1,20 @@
 const translateText = require("../../../utils/translateText");
+const getUser = require("./getUser");
 
 module.exports = parameters => {
     if(Object.prototype.toString.call(parameters) == '[object Object]') {
         var {
             language,
-            votes = [],
+            post,
             token
         } = parameters;
     }
 
-    let text = `${translateText({language, text: 'Number of votes'})}: <b>${votes.length}</b>`;
+    let user = getUser({token, id: post.author})
 
-    for(let i = 0; i < votes.length; i++) {
+    let text = `${translateText({language, text: 'Author'})}: <b>${user.data.first_name}</b>`;
+
+    for(let i = 0; i < post.votes.length; i++) {
         if(i == 0) {
             text += (''
                 + '\n'
@@ -19,7 +22,7 @@ module.exports = parameters => {
             );
         }
 
-        text += `\n<a href="tg://user?id=${votes[i]}">${global.bots[token].users[votes[i]].data.first_name}</a>`;
+        text += `\n${i + 1} - <a href="tg://user?id=${post.votes[i]}">${global.bots[token].users[post.votes[i]].data.first_name}</a>`;
     }
 
     return({

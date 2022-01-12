@@ -1,0 +1,123 @@
+{
+    "groups": {
+        "-1001678290039": {
+            "parameters": {
+                "delete_commands": [],
+                "votes": [
+                    {
+                        "value": {
+                            "enlightened": 1,
+                            "resistance": 0
+                        },
+                        "user": 124127197,
+                        "date": "2022-01-12T21:38:17.615Z"
+                    },
+                    {
+                        "value": {
+                            "enlightened": 1,
+                            "resistance": 2
+                        },
+                        "user": 124127197,
+                        "date": "2022-01-12T20:21:34.166Z"
+                    }
+                ],
+                "channels": [
+                    {
+                        "value": -1001641934333,
+                        "date": 1642023593
+                    }
+                ]
+            },
+            "messages": {
+                "466": {
+                    "votes": []
+                },
+                "482": {
+                    "author": 311708462,
+                    "votes": []
+                },
+                "487": {
+                    "author": 311708462,
+                    "votes": []
+                },
+                "491": {
+                    "author": 311708462,
+                    "votes": [
+                        124127197
+                    ]
+                },
+                "497": {
+                    "author": 311708462,
+                    "votes": []
+                },
+                "501": {
+                    "author": 311708462,
+                    "votes": []
+                },
+                "504": {
+                    "author": 311708462,
+                    "votes": [
+                        311708462
+                    ]
+                },
+                "508": {
+                    "author": 311708462,
+                    "votes": []
+                },
+                "512": {
+                    "author": 311708462,
+                    "votes": [
+                        311708462
+                    ],
+                    "posted": true
+                },
+                "523": {
+                    "author": 124127197,
+                    "votes": [
+                        124127197
+                    ],
+                    "posted": true
+                },
+                "527": {
+                    "author": 124127197,
+                    "votes": [
+                        311708462
+                    ]
+                },
+                "531": {
+                    "author": 311708462,
+                    "votes": [
+                        311708462
+                    ],
+                    "posted": true
+                }
+            }
+        }
+    },
+    "users": {
+        "124127197": {
+            "parameters": {
+                "faction": "enlightened"
+            },
+            "data": {
+                "is_bot": false,
+                "first_name": "Bruno",
+                "last_name": "Peralva",
+                "username": "Peralva",
+                "language_code": "pt-br"
+            }
+        },
+        "311708462": {
+            "parameters": {
+                "faction": "enlightened"
+            },
+            "data": {
+                "is_bot": false,
+                "first_name": "Bruno 🇧🇷🇨🇦",
+                "last_name": "áéíóú ÁÉÍÓÚ àèìòù ÀÈÌÒÙ âêîôû ÂÊÎÔÛ ãõÃÕ '\"!¹@²#³$£%¢¨¬&*()_-=+§",
+                "username": "BrunoPeralva",
+                "language_code": "pt-br"
+            }
+        }
+    }
+}

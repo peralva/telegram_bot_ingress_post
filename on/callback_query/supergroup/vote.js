@@ -9,7 +9,7 @@ module.exports = async ctx => {
     let language = callback_query.from.language_code;
     let token = ctx.tg.token;
     let group = getGroup({token, id: callback_query.message.chat.id})
-    let message = group.messages[callback_query.message.message_id];
+    let post = group.messages[callback_query.message.message_id];
     let user = getUser({token, id: callback_query.from.id});
 
     let answerCbQueryText = '';
@@ -17,7 +17,7 @@ module.exports = async ctx => {
     let text1 = '';
     let button = true;
 
-    if(message.posted) {
+    if(post.posted) {
         answerCbQueryText = `${translateText({language, text: 'Message already posted'})}.`;
         button = false;
 
@@ -34,7 +34,7 @@ module.exports = async ctx => {
                 + `\n${translateText({language, text: 'Original message has been deleted'})}.`
             );
         } else {
-            let index = message.votes.indexOf(callback_query.from.id);
+            let index = post.votes.indexOf(callback_query.from.id);
 
             if(index == -1) {
                 if(true
@@ -47,25 +47,28 @@ module.exports = async ctx => {
                     user.data = {...callback_query.from};
                     delete(user.data.id);
 
-                    message.votes.push(callback_query.from.id);
+                    post.votes.push(callback_query.from.id);
 
-                    if(false
-                        || (true
-                            && (false
-                                || group.parameters.votes[0].value.enlightened == 0
-                                || group.parameters.votes[0].value.resistance == 0
+                    if(true
+                        && post.votes.includes(post.author)
+                        && (false
+                            || (true
+                                && (false
+                                    || group.parameters.votes[0].value.enlightened == 0
+                                    || group.parameters.votes[0].value.resistance == 0
+                                )
+                                && post.votes.length >= group.parameters.votes[0].value.enlightened + group.parameters.votes[0].value.resistance
                             )
-                            && message.votes.length >= group.parameters.votes[0].value.enlightened + group.parameters.votes[0].value.resistance
-                        )
-                        || (true
-                            && message.votes.filter(element => true
-                                && typeof(global.bots[token].users[element].parameters.faction) == 'string'
-                                && global.bots[token].users[element].parameters.faction == 'enlightened'
-                            ).length >= group.parameters.votes[0].value.enlightened
-                            && message.votes.filter(element => true
-                                && typeof(global.bots[token].users[element].parameters.faction) == 'string'
-                                && global.bots[token].users[element].parameters.faction == 'resistance'
-                            ).length >= group.parameters.votes[0].value.resistance
+                            || (true
+                                && post.votes.filter(element => true
+                                    && typeof(global.bots[token].users[element].parameters.faction) == 'string'
+                                    && global.bots[token].users[element].parameters.faction == 'enlightened'
+                                ).length >= group.parameters.votes[0].value.enlightened
+                                && post.votes.filter(element => true
+                                    && typeof(global.bots[token].users[element].parameters.faction) == 'string'
+                                    && global.bots[token].users[element].parameters.faction == 'resistance'
+                                ).length >= group.parameters.votes[0].value.resistance
+                            )
                         )
                     ) {
                         let {linked_chat_id} = await ctx.getChat();
@@ -89,10 +92,9 @@ module.exports = async ctx => {
                                     + `\n<b>${translateText({language, text: 'Published post'})}</b>`
                                 );
 
-                                message.posted = true;
+                                post.posted = true;
                                 button = false;
                             }).catch(err => {
-console.error(err)
                                 if(!err.response.ok) {
                                     if(err.response.error_code == 403) {
                                         text1 = (''
@@ -111,7 +113,7 @@ console.error(err)
                     }
                 }
             } else {
-                message.votes.splice(index, 1);
+                post.votes.splice(index, 1);
             }
 
             recordData({token});
@@ -121,7 +123,7 @@ console.error(err)
     let {text, reply_markup} = getMessageVote({
         language,
         token,
-        votes: message.votes
+        post
     });
 
     ctx.editMessageText(

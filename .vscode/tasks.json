@@ -10,7 +10,7 @@
 			},
 			"problemMatcher": [],
 			"label": "npm: test",
-			"detail": "START \"\" nodemon -i data.json --trace-warnings"
+			"detail": "START \"Bot\" nodemon -e js --trace-warnings"
 		}
 	]
 }

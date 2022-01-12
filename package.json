@@ -4,7 +4,7 @@
   "description": "Telegram Bot - Ingress Post",
   "main": "index.js",
   "scripts": {
-    "test": "START \"\" nodemon -i data.json --trace-warnings"
+    "test": "START \"Bot\" nodemon -e js --trace-warnings"
   },
   "repository": {
     "type": "git",
