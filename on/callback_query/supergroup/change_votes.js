@@ -3,6 +3,7 @@ const getGroup = require('../../../utils/getGroup');
 const getMessageChangeVotes = require('../../../utils/getMessageChangeVotes');
 const recordData = require('../../../utils/recordData');
 const setUserData = require('../../../utils/setUserData');
+const getParameterConfigured = require('../../../utils/getParameterConfigured');
 
 module.exports = async ctx => {
     let language = ctx.update.callback_query.from.language_code;
@@ -53,6 +54,7 @@ module.exports = async ctx => {
                     + '\n'
                     + `\u{1F7E2} ${translateText({language, text: 'Enlightened'})}: <b>${enlightened}</b>\n`
                     + `\u{1F535} ${translateText({language, text: 'Resistance'})}: <b>${resistance}</b>`
+                    + getParameterConfigured({data: ctx.update.callback_query.from})
                 ),
                 {parse_mode: 'HTML'}
             );

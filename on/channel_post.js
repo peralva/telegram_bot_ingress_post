@@ -1,4 +1,6 @@
-const getGroup = require("../utils/getGroup");
+const translateText = require("../../../utils/translateText");
+const getParameterConfigured = require("../utils/getParameterConfigured");
+const getUser = require("../utils/getUser");
 const recordData = require("../utils/recordData");
 
 module.exports = async ctx => {
@@ -33,9 +35,20 @@ module.exports = async ctx => {
         return;
     }
 
+    let data = getUser({token, id: group.parameters.link_channel.user}).data;
+
     ctx.telegram.sendMessage(
         group.data.id,
-        `<b>${ctx.update.channel_post.chat.title}</b> channel linked.${erroDelete}`,
+        (''
+            + `${translateText({
+                language: data.language_code,
+                text: '<b>{{channel}}</b> channel linked',
+                variables: {
+                    channel: ctx.update.channel_post.chat.title
+                }
+            })}.${erroDelete}`
+            + getParameterConfigured({data})
+        ),
         {parse_mode: 'HTML'}
     );
 

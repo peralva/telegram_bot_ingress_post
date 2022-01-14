@@ -1,5 +1,6 @@
 const translateText = require("../../../utils/translateText");
 const getGroup = require("../utils/getGroup");
+const getParameterConfigured = require("../utils/getParameterConfigured");
 const getUser = require("../utils/getUser");
 const recordData = require("../utils/recordData");
 const setUserData = require("../utils/setUserData");
@@ -53,7 +54,10 @@ module.exports = async ctx => {
     }
 
     ctx.replyWithHTML(
-        `${translateText({language, text: 'Configuration'})} <b>${translateText({language, text: enabled ? 'enabled' : 'disabled'})}</b>.`,
+        (''
+            + `${translateText({language, text: 'Configuration'})} <b>${translateText({language, text: enabled ? 'enabled' : 'disabled'})}</b>.`
+            + getParameterConfigured({data: ctx.update.message.from})
+        ),
         {reply_to_message_id: ctx.update.message.message_id}
     );
 
