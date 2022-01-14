@@ -64,7 +64,7 @@ module.exports = ctx => {
             token,
             message: {
                 author: ctx.update.message.from.id,
-                votes: []
+                votes: [ctx.update.message.from.id]
             }
         });
 
@@ -94,6 +94,7 @@ module.exports = ctx => {
             });
 
             message.author = ctx.update.message.from.id;
+            message.votes.push(ctx.update.message.from.id);
 
             recordData({token});
         });

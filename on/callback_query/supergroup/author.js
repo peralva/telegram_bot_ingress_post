@@ -10,6 +10,7 @@ module.exports = ctx => {
 
     let message = getMessage({token, id_group: callback_query.message.chat.id, id_message: callback_query.message.message_id});
     message.author = callback_query.data;
+    message.votes.push(callback_query.from.id);
 
     let {text, reply_markup} = getMessageVote({language, token, message});
 
