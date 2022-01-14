@@ -10,6 +10,6 @@ module.exports = parameters => {
     return(''
         + '\n'
         + '\n'
-        + `${translateText({language: data.language, text: 'Parameter configured by'})} <b>${data.first_name}${typeof(data.last_name) == 'string' ? ` ${data.last_name}` : ''}.</b>`
+        + `${translateText({language: data.language_code, text: 'Parameter configured by'})} <b>${data.first_name}${typeof(data.last_name) == 'string' ? ` ${data.last_name}` : ''}.</b>`
     );
 }

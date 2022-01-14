@@ -88,7 +88,6 @@ module.exports = async ctx => {
                         channel: ctx.update.channel_post.chat.title
                     }
                 })}.${messageErroDelete}`
-                + getParameterConfigured({data})
             ),
             {parse_mode: 'HTML'}
         );
