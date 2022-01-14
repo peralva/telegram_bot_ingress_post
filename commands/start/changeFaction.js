@@ -1,12 +1,9 @@
-const getUser = require("./getUser");
-
 module.exports = parameters => {
     if(Object.prototype.toString.call(parameters) == '[object Object]') {
         var {
-            token,
-            data
+            ctx
         } = parameters;
     }
 
-    getUser({token, id: data.id}).data = data;
+    require('../change_faction')(ctx);
 }

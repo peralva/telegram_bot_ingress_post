@@ -1,5 +1,5 @@
 const translateText = require("../../../utils/translateText");
-const getGroup = require("../utils/getGroup");
+const getMessage = require("../utils/getMessage");
 const getMessageVote = require("../utils/getMessageVote");
 const recordData = require("../utils/recordData");
 const replyWithHTML = require("../utils/replyWithHTML");
@@ -11,23 +11,6 @@ module.exports = ctx => {
 
     if(ctx.update.message.chat.type != 'supergroup') {
         replyWithHTML({ctx, text: `${translateText({language, text: 'This command can only be used in supergroup'})}.`});
-
-        return;
-    }
-
-    let group = getGroup({token, id: ctx.update.message.chat.id});
-
-    if(false
-        || group.parameters.votes.length == 0
-        || (true
-            && group.parameters.votes[0].value.enlightened == 0
-            && group.parameters.votes[0].value.resistance == 0
-        )
-    ) {
-        replyWithHTML({
-            ctx,
-            text: `${translateText({language, text: 'Vote parameter not configured. Type /change_votes to configure'})}.`
-        });
 
         return;
     }
@@ -50,13 +33,36 @@ module.exports = ctx => {
         return;
     }
 
+    if(true
+        && ctx.update.message.from.is_bot
+        && ctx.update.message.reply_to_message.from.is_bot
+    ) {
+        replyWithHTML({
+            ctx,
+            text: `${translateText({language, text: "An anonymous user cannot author a post"})}.`
+        });
+
+        return;
+    } else if(true
+        && !(true
+            && !ctx.update.message.from.is_bot
+            && !ctx.update.message.reply_to_message.from.is_bot
+        )
+    ) {
+        if(ctx.update.message.from.is_bot) {
+            ctx.update.message.from = ctx.update.message.reply_to_message.from;
+        } else {
+            ctx.update.message.reply_to_message.from = ctx.update.message.from;
+        }
+    }
+
     if(ctx.update.message.from.id == ctx.update.message.reply_to_message.from.id) {
         setUserData({token, data: ctx.update.message.from});
 
         let {text, reply_markup} = getMessageVote({
             language,
             token,
-            post: {
+            message: {
                 author: ctx.update.message.from.id,
                 votes: []
             }
@@ -81,10 +87,13 @@ module.exports = ctx => {
                 }
             });
 
-            group.messages[result.message_id] = {
-                author: ctx.update.message.from.id,
-                votes: []
-            };
+            let message = getMessage({
+                token,
+                id_group: ctx.update.message.chat.id,
+                id_message: result.message_id
+            });
+
+            message.author = ctx.update.message.from.id;
 
             recordData({token});
         });
@@ -96,7 +105,7 @@ module.exports = ctx => {
                     inline_keyboard: [
                         [
                             {
-                                text: ctx.update.message.reply_to_message.from.first_name,
+                                text: !ctx.update.message.reply_to_message.from.is_bot ? ctx.update.message.reply_to_message.from.first_name : `${translateText({language, text: "Anonymous"})}`,
                                 callback_data: JSON.stringify(
                                     {
                                         author: ctx.update.message.reply_to_message.from.id
@@ -104,7 +113,7 @@ module.exports = ctx => {
                                 )
                             },
                             {
-                                text: ctx.update.message.from.first_name,
+                                text: !ctx.update.message.from.is_bot ? ctx.update.message.from.first_name : `${translateText({language, text: "Anonymous"})}`,
                                 callback_data: JSON.stringify(
                                     {
                                         author: ctx.update.message.from.id

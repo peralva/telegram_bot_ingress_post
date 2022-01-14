@@ -28,7 +28,16 @@ module.exports = ctx => {
         }
 
         reply_markup = {};
-        text = `${translateText({language, text: 'Faction changed to'})} <b>${capitalize({text: translateText({language, text: parameters.faction})})}</b>.`;
+
+        text = `${translateText({language, text: 'Faction changed to'})} `;
+
+        if(parameters.faction == 'enlightened') {
+            text += '\u{1F7E2}';
+        } else if(parameters.faction == 'resistance') {
+            text += '\u{1F535}';
+        }
+
+        text += `<b>${capitalize({text: translateText({language, text: parameters.faction})})}</b>.`;
 
         recordData({token});
     } else {
@@ -36,11 +45,11 @@ module.exports = ctx => {
             inline_keyboard: [
                 [
                     {
-                        text: translateText({language, text: '\u{1F7E2} Enlightened'}),
+                        text: `\u{1F7E2} ${translateText({language, text: 'Enlightened'})}`,
                         callback_data: 'enlightened'
                     },
                     {
-                        text: translateText({language, text: '\u{1F535} Resistance'}),
+                        text: `\u{1F535} ${translateText({language, text: 'Resistance'})}`,
                         callback_data: 'resistance'
                     }
                 ]

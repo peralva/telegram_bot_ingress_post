@@ -3,9 +3,9 @@ const translateText = require("../../../utils/translateText");
 module.exports = parameters => {
     if(Object.prototype.toString.call(parameters) == '[object Object]') {
         var {
+            language,
             enlightened,
-            resistance,
-            language
+            resistance
         } = parameters;
     }
 

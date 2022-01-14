@@ -1,4 +1,4 @@
-const getUser = require("./getUser");
+const getGroup = require("./getGroup");
 
 module.exports = parameters => {
     if(Object.prototype.toString.call(parameters) == '[object Object]') {
@@ -8,5 +8,5 @@ module.exports = parameters => {
         } = parameters;
     }
 
-    getUser({token, id: data.id}).data = data;
+    getGroup({token, id: data.id}).data = data;
 }

@@ -6,12 +6,22 @@ const getUser = require('../../utils/getUser');
 module.exports = ctx => {
     let language = ctx.update.callback_query.from.language_code;
     let token = ctx.tg.token;
-    let user = getUser({token, id: ctx.update.callback_query.from.id});
+    let parameters = getUser({token, id: ctx.update.callback_query.from.id}).parameters;
 
-    user.parameters.faction = ctx.update.callback_query.data;
+    parameters.faction = ctx.update.callback_query.data;
+
+    let text = `${translateText({language, text: 'Faction changed to'})} `;
+
+    if(parameters.faction == 'enlightened') {
+        text += '\u{1F7E2}';
+    } else if(parameters.faction == 'resistance') {
+        text += '\u{1F535}';
+    }
+
+    text += `<b>${capitalize({text: translateText({language, text: parameters.faction})})}</b>.`
 
     ctx.editMessageText(
-        `${translateText({language, text: 'Faction changed to'})} <b>${capitalize({text: translateText({language, text: user.parameters.faction})})}</b>.`,
+        text,
         {parse_mode: 'HTML'}
     );
 

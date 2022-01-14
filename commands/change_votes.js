@@ -14,13 +14,13 @@ module.exports = ctx => {
 
     let token = ctx.tg.token;
 
-    let group = getGroup({token, id: ctx.update.message.chat.id});
+    let votes = getGroup({token, id: ctx.update.message.chat.id}).parameters.votes;
 
     let enlightened;
     let resistance;
 
-    if(group.parameters.votes.length > 0) {
-        ({enlightened, resistance} = group.parameters.votes[0].value);
+    if(votes.length > 0) {
+        ({enlightened, resistance} = votes[0].value);
     } else {
         enlightened = resistance = 0;
     }

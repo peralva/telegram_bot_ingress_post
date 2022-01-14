@@ -1,26 +1,27 @@
 module.exports = parameters => {
     if(Object.prototype.toString.call(parameters) == '[object Object]') {
         var {
-            id,
-            token
+            token,
+            id
         } = parameters;
     }
 
     if(typeof(global.bots[token].users) != 'object') {
-        global.bots[token].users = {};
+        global.bots[token].users = [];
     }
 
-    if(typeof(global.bots[token].users[id]) != 'object') {
-        global.bots[token].users[id] = {};
+    let user = global.bots[token].users.find(element => element.data.id == id);
+
+    if(typeof(user) != 'object') {
+        user = {
+            data: {
+                id
+            },
+            parameters: {}
+        };
+
+        global.bots[token].users.push(user);
     }
 
-    if(typeof(global.bots[token].users[id].parameters) != 'object') {
-        global.bots[token].users[id].parameters = {};
-    }
-
-    if(typeof(global.bots[token].users[id].data) != 'object') {
-        global.bots[token].users[id].data = {};
-    }
-
-    return(global.bots[token].users[id]);
+    return(user);
 }

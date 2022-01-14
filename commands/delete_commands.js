@@ -12,23 +12,23 @@ module.exports = async ctx => {
     let enabled;
 
     if(ctx.update.message.chat.type == 'private') {
-        let user = getUser({token, id});
+        let parameters = getUser({token, id}).parameters;
 
-        enabled = !user.parameters.delete_commands;
+        enabled = !parameters.delete_commands;
 
-        user.parameters.delete_commands = enabled;
+        parameters.delete_commands = enabled;
     } else if(ctx.update.message.chat.type.includes('group')) {
-        let group = getGroup({token, id});
+        let delete_commands = getGroup({token, id}).parameters.delete_commands;
 
-        let ok;
+        let isAdministrator;
 
         await ctx.getChatAdministrators().then(result => {
             if(result.findIndex(element => element.user.id == ctx.update.message.from.id) > -1) {
-                ok = true;
+                isAdministrator = true;
             }
         });
 
-        if(!ok) {
+        if(!isAdministrator) {
             ctx.replyWithHTML(
                 `${translateText({language, text: 'Only administrators can change this parameter. If you are an administrator, you need to uncheck the anonymous option so that I can identify you'})}.`,
                 {reply_to_message_id: ctx.update.message.message_id}
@@ -37,11 +37,11 @@ module.exports = async ctx => {
             return;
         }
 
-        enabled = group.parameters.delete_commands.length == 0 || !group.parameters.delete_commands[0].value;
+        enabled = delete_commands.length == 0 || !delete_commands[0].value;
 
         setUserData({token, data: ctx.update.message.from});
 
-        group.parameters.delete_commands.splice(
+        delete_commands.splice(
             0,
             0,
             {

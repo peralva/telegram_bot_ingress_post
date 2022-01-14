@@ -4,13 +4,13 @@ const getUser = require("./getUser");
 module.exports = parameters => {
     if(Object.prototype.toString.call(parameters) == '[object Object]') {
         var {
+            token,
             language,
-            post,
-            token
+            message
         } = parameters;
     }
 
-    let user = getUser({token, id: post.author})
+    let user = getUser({token, id: message.author});
 
     let text = `${translateText({language, text: 'Author'})}: `;
 
@@ -22,10 +22,10 @@ module.exports = parameters => {
         }
     }
 
-    text += `<b>${user.data.first_name}</b>`;
+    text += `<b>${!user.data.is_bot ? `<a href="tg://user?id=${user.data.id}">${user.data.first_name}</a>` : translateText({language, text: "Anonymous"})}</b>`;
 
-    for(let i = 0; i < post.votes.length; i++) {
-        let faction = getUser({token, id: post.votes[i]}).parameters.faction;
+    for(let i = 0; i < message.votes.length; i++) {
+        let user = getUser({token, id: message.votes[i]});
 
         if(i == 0) {
             text += (''
@@ -36,17 +36,17 @@ module.exports = parameters => {
 
         text += `\n`;
 
-        if(typeof(faction) == 'string') {
-            if(faction == 'enlightened') {
+        if(typeof(user.parameters.faction) == 'string') {
+            if(user.parameters.faction == 'enlightened') {
                 text += '\u{1F7E2} ';
-            } else if(faction == 'resistance') {
+            } else if(user.parameters.faction == 'resistance') {
                 text += '\u{1F535} ';
             }
         } else {
             text += '\u{26AA} ';
         }
 
-        text += `<b>${i + 1}</b> - <a href="tg://user?id=${post.votes[i]}">${global.bots[token].users[post.votes[i]].data.first_name}</a>`;
+        text += `<b>${i + 1}</b> - ${!user.data.is_bot ? `<a href="tg://user?id=${user.data.id}">${user.data.first_name}</a>` : translateText({language, text: "Anonymous"})}`;
     }
 
     return({

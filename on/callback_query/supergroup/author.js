@@ -1,4 +1,5 @@
-const getGroup = require("../../../utils/getGroup");
+const translateText = require("../../../../../utils/translateText");
+const getMessage = require("../../../utils/getMessage");
 const getMessageVote = require("../../../utils/getMessageVote");
 const recordData = require("../../../utils/recordData");
 
@@ -7,14 +8,10 @@ module.exports = ctx => {
     let language = callback_query.from.language_code;
     let token = ctx.tg.token;
 
-    let group = getGroup({token, id: callback_query.message.chat.id});
+    let message = getMessage({token, id_group: callback_query.message.chat.id, id_message: callback_query.message.message_id});
+    message.author = callback_query.data;
 
-    group.messages[callback_query.message.message_id] = {
-        author: callback_query.data,
-        votes: []
-    };
-
-    let {text, reply_markup} = getMessageVote({language, token, post: group.messages[callback_query.message.message_id]});
+    let {text, reply_markup} = getMessageVote({language, token, message});
 
     ctx.editMessageText(
         text,

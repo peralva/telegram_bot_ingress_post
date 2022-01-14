@@ -15,15 +15,13 @@ module.exports = parameters => {
     let deleteCommand;
 
     if(ctx.update.message.chat.type == 'private') {
-        let user = getUser({token, id: ctx.update.message.chat.id});
-
-        deleteCommand = user.parameters.delete_commands;
+        deleteCommand = getUser({token, id: ctx.update.message.chat.id}).parameters.delete_commands;
     } else if(ctx.update.message.chat.type.includes('group')) {
-        let group = getGroup({token, id: ctx.update.message.chat.id});
+        let delete_commands = getGroup({token, id: ctx.update.message.chat.id}).parameters.delete_commands;
 
         deleteCommand = (true
-            && group.parameters.delete_commands.length > 0
-            && group.parameters.delete_commands[0].value
+            && delete_commands.length > 0
+            && delete_commands[0].value
         );
     }
 
