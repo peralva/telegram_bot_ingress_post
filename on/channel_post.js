@@ -4,7 +4,7 @@ const getUser = require("../utils/getUser");
 const recordData = require("../utils/recordData");
 
 module.exports = async ctx => {
-    let erroDelete = '';
+    let erroDelete;
 
     let token = ctx.tg.token;
 
@@ -19,7 +19,7 @@ module.exports = async ctx => {
     }
 
     await ctx.deleteMessage(ctx.update.channel_post.message_id).catch(() => {
-        erroDelete = ` However, I could not clear the channel command message.`;
+        erroDelete = true;
     });
 
     if(text.length < 2) {
@@ -37,32 +37,63 @@ module.exports = async ctx => {
 
     let data = getUser({token, id: group.parameters.link_channel.user}).data;
 
-    ctx.telegram.sendMessage(
-        group.data.id,
-        (''
-            + `${translateText({
-                language: data.language_code,
-                text: '<b>{{channel}}</b> channel linked',
-                variables: {
-                    channel: ctx.update.channel_post.chat.title
-                }
-            })}.${erroDelete}`
-            + getParameterConfigured({data})
-        ),
-        {parse_mode: 'HTML'}
-    );
+    let messageErroDelete;
 
-    group.parameters.channels.splice(
-        0,
-        0,
-        {
-            value: ctx.update.channel_post.chat.id,
-            user: group.parameters.link_channel.user,
-            date: ctx.update.channel_post.date
-        }
-    );
+    if(erroDelete) {
+        messageErroDelete = (''
+            + '\n'
+            + '\n'
+            + `${translateText({language: data.language_code, text: "I'm not allowed to delete channel messages"})}.`
+        );
+    } else {
+        messageErroDelete = '';
+    }
+
+    if(false
+        || group.parameters.channels.length == 0
+        || group.parameters.channels[0].value != ctx.update.channel_post.chat.id
+    ) {
+        ctx.telegram.sendMessage(
+            group.data.id,
+            (''
+                + `${translateText({
+                    language: data.language_code,
+                    text: '<b>{{channel}}</b> channel linked',
+                    variables: {
+                        channel: ctx.update.channel_post.chat.title
+                    }
+                })}.${messageErroDelete}`
+                + getParameterConfigured({data})
+            ),
+            {parse_mode: 'HTML'}
+        );
+    
+        group.parameters.channels.splice(
+            0,
+            0,
+            {
+                value: ctx.update.channel_post.chat.id,
+                user: group.parameters.link_channel.user,
+                date: ctx.update.channel_post.date
+            }
+        );
+    } else {
+        ctx.telegram.sendMessage(
+            group.data.id,
+            (''
+                + `${translateText({
+                    language: data.language_code,
+                    text: 'This group is already linked to the <b>{{channel}}</b> channel',
+                    variables: {
+                        channel: ctx.update.channel_post.chat.title
+                    }
+                })}.${messageErroDelete}`
+                + getParameterConfigured({data})
+            ),
+            {parse_mode: 'HTML'}
+        );
+    }
 
     delete(group.parameters.link_channel);
-
     recordData({token});
 }
