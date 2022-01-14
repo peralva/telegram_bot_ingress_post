@@ -28,29 +28,47 @@ module.exports = async ctx => {
     let {enlightened, resistance, save}  = ctx.update.callback_query.data;
 
     if(save) {
-        setUserData({token, data: ctx.update.callback_query.from});
+        let votes = getGroup({token, id: ctx.update.callback_query.message.chat.id}).parameters.votes;
 
-        getGroup({token, id: ctx.update.callback_query.message.chat.id}).parameters.votes.splice(
-            0,
-            0,
-            {
-                value: {enlightened, resistance},
-                user: ctx.update.callback_query.from.id,
-                date: new Date()
-            }
-        );
+        if(false
+            || votes.length == 0
+            || votes[0].value.enlightened != enlightened
+            || votes[0].value.resistance != resistance
+        ) {
+            setUserData({token, data: ctx.update.callback_query.from});
 
-        ctx.editMessageText(
-            (''
-                + `${translateText({language, text: 'Number of votes changed'})}.\n`
-                + '\n'
-                + `\u{1F7E2} ${translateText({language, text: 'Enlightened'})}: <b>${enlightened}</b>\n`
-                + `\u{1F535} ${translateText({language, text: 'Resistance'})}: <b>${resistance}</b>`
-            ),
-            {parse_mode: 'HTML'}
-        );
-
-        recordData({token});
+            votes.splice(
+                0,
+                0,
+                {
+                    value: {enlightened, resistance},
+                    user: ctx.update.callback_query.from.id,
+                    date: new Date()
+                }
+            );
+    
+            ctx.editMessageText(
+                (''
+                + `<b>${translateText({language, text: 'Number of votes changed'})}.</b>\n`
+                    + '\n'
+                    + `\u{1F7E2} ${translateText({language, text: 'Enlightened'})}: <b>${enlightened}</b>\n`
+                    + `\u{1F535} ${translateText({language, text: 'Resistance'})}: <b>${resistance}</b>`
+                ),
+                {parse_mode: 'HTML'}
+            );
+    
+            recordData({token});
+        } else {
+            ctx.editMessageText(
+                (''
+                    + `<b>${translateText({language, text: 'Without changes. current data'})}:</b>\n`
+                    + '\n'
+                    + `\u{1F7E2} ${translateText({language, text: 'Enlightened'})}: <b>${enlightened}</b>\n`
+                    + `\u{1F535} ${translateText({language, text: 'Resistance'})}: <b>${resistance}</b>`
+                ),
+                {parse_mode: 'HTML'}
+            );
+        }
     } else {
         let {text, reply_markup} = getMessageChangeVotes({
             enlightened,
