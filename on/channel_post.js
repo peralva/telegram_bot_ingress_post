@@ -2,6 +2,7 @@ const translateText = require("../../../utils/translateText");
 const getParameterConfigured = require("../utils/getParameterConfigured");
 const getUser = require("../utils/getUser");
 const recordData = require("../utils/recordData");
+const setChannelData = require("../utils/setChannelData");
 
 module.exports = async ctx => {
     let erroDelete;
@@ -77,6 +78,8 @@ module.exports = async ctx => {
                 date: ctx.update.channel_post.date * 1000
             }
         );
+
+        setChannelData({token, data: ctx.update.channel_post.chat});
     } else {
         ctx.telegram.sendMessage(
             group.data.id,
