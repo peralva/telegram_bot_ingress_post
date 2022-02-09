@@ -1,4 +1,5 @@
 const translateText = require("../../../utils/translateText");
+const getFactionIcon = require("./getFactionIcon");
 const getUser = require("./getUser");
 
 module.exports = parameters => {
@@ -12,15 +13,7 @@ module.exports = parameters => {
 
     let user = getUser({token, id: message.author});
 
-    let text = `${translateText({language, text: 'Author'})}: `;
-
-    if(typeof(user.parameters.faction) == 'string') {
-        if(user.parameters.faction == 'enlightened') {
-            text += '\u{1F7E2} ';
-        } else if(user.parameters.faction == 'resistance') {
-            text += '\u{1F535} ';
-        }
-    }
+    let text = `${translateText({language, text: 'Author'})}: ${getFactionIcon({faction: user.parameters.faction, withoutFaction: false})}`;
 
     text += `<b>${!user.data.is_bot ? `<a href="tg://user?id=${user.data.id}">${user.data.first_name}</a>` : translateText({language, text: "Anonymous"})}</b>`;
 
@@ -35,18 +28,7 @@ module.exports = parameters => {
         }
 
         text += `\n`;
-
-        if(typeof(user.parameters.faction) == 'string') {
-            if(user.parameters.faction == 'enlightened') {
-                text += '\u{1F7E2} ';
-            } else if(user.parameters.faction == 'resistance') {
-                text += '\u{1F535} ';
-            }
-        } else {
-            text += '\u{26AA} ';
-        }
-
-        text += `<b>${i + 1}</b> - ${!user.data.is_bot ? `<a href="tg://user?id=${user.data.id}">${user.data.first_name}</a>` : translateText({language, text: "Anonymous"})}`;
+        text += `${getFactionIcon({faction: user.parameters.faction})} <b>${i + 1}</b> - ${!user.data.is_bot ? `<a href="tg://user?id=${user.data.id}">${user.data.first_name}</a>` : translateText({language, text: "Anonymous"})}`;
     }
 
     return({

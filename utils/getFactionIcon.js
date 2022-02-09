@@ -1,7 +1,8 @@
 module.exports = parameters => {
     if(Object.prototype.toString.call(parameters) == '[object Object]') {
         var {
-            faction
+            faction,
+            withoutFaction = true
         } = parameters;
     }
 
@@ -13,6 +14,10 @@ module.exports = parameters => {
     if(faction) {
         return(data[faction]);
     } else {
-        return(`\u{26AA}`);
+        if(withoutFaction) {
+            return(`\u{26AA}`);
+        } else {
+            return(``);
+        }
     }
 }

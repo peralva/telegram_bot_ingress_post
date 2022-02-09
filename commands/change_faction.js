@@ -1,5 +1,6 @@
 const capitalize = require("../../../utils/capitalize");
 const translateText = require("../../../utils/translateText");
+const getFactionIcon = require("../utils/getFactionIcon");
 const getUser = require("../utils/getUser");
 const recordData = require("../utils/recordData");
 const replyWithHTML = require("../utils/replyWithHTML");
@@ -29,15 +30,7 @@ module.exports = ctx => {
 
         reply_markup = {};
 
-        text = `${translateText({language, text: 'Faction changed to'})} `;
-
-        if(parameters.faction == 'enlightened') {
-            text += '\u{1F7E2}';
-        } else if(parameters.faction == 'resistance') {
-            text += '\u{1F535}';
-        }
-
-        text += `<b>${capitalize({text: translateText({language, text: parameters.faction})})}</b>.`;
+        text = `${translateText({language, text: 'Faction changed to'})} ${getFactionIcon({faction: parameters.faction})}<b>${capitalize({text: translateText({language, text: parameters.faction})})}</b>.`;
 
         recordData({token});
     } else {

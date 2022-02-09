@@ -2,6 +2,7 @@ const capitalize = require('../../../../utils/capitalize');
 const translateText = require('../../../../utils/translateText');
 const recordData = require('../../utils/recordData');
 const getUser = require('../../utils/getUser');
+const getFactionIcon = require('../../utils/getFactionIcon');
 
 module.exports = ctx => {
     let language = ctx.update.callback_query.from.language_code;
@@ -10,18 +11,8 @@ module.exports = ctx => {
 
     parameters.faction = ctx.update.callback_query.data;
 
-    let text = `${translateText({language, text: 'Faction changed to'})} `;
-
-    if(parameters.faction == 'enlightened') {
-        text += '\u{1F7E2}';
-    } else if(parameters.faction == 'resistance') {
-        text += '\u{1F535}';
-    }
-
-    text += `<b>${capitalize({text: translateText({language, text: parameters.faction})})}</b>.`
-
     ctx.editMessageText(
-        text,
+        `${translateText({language, text: 'Faction changed to'})} ${getFactionIcon({faction: parameters.faction})}<b>${capitalize({text: translateText({language, text: parameters.faction})})}</b>.`,
         {parse_mode: 'HTML'}
     );
 
