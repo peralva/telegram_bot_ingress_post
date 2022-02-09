@@ -61,7 +61,7 @@ module.exports = async ctx => {
                     language: data.language_code,
                     text: '<b>{{channel}}</b> channel linked',
                     variables: {
-                        channel: ctx.update.channel_post.chat.title
+                        channel: ctx.update.channel_post.chat.username ? `@${ctx.update.channel_post.chat.username}` : ctx.update.channel_post.chat.title
                     }
                 })}.${messageErroDelete}`
                 + getParameterConfigured({data})
