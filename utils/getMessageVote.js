@@ -14,7 +14,7 @@ module.exports = parameters => {
 
     let user = getUser({token, id: message.author});
 
-    let text = `${translateText({language, text: 'Author'})}: ${getFactionIcon({faction: user.parameters.faction, withoutFaction: false})}<b>${!user.data.is_bot ? getUserName({data: user.data, lastName: true}) : translateText({language, text: "Anonymous"})}</b>`;
+    let text = `${translateText({language, text: 'Author'})}: ${getFactionIcon({faction: user.parameters.faction, withoutFaction: false})}<b>${getUserName({data: user.data, lastName: true})}</b>`;
 
     for(let i = 0; i < message.votes.length; i++) {
         let user = getUser({token, id: message.votes[i]});
@@ -27,7 +27,7 @@ module.exports = parameters => {
         }
 
         text += `\n`;
-        text += `${getFactionIcon({faction: user.parameters.faction})} <b>${i + 1}</b> - ${!user.data.is_bot ? getUserName({data: user.data}) : translateText({language, text: "Anonymous"})}`;
+        text += `${getFactionIcon({faction: user.parameters.faction})} <b>${i + 1}</b> - ${getUserName({data: user.data})}`;
     }
 
     return({
