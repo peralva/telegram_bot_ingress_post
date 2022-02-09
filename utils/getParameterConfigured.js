@@ -1,4 +1,5 @@
 const translateText = require("../../../utils/translateText");
+const getUserName = require("./getUserName");
 
 module.exports = parameters => {
     if(Object.prototype.toString.call(parameters) == '[object Object]') {
@@ -10,6 +11,6 @@ module.exports = parameters => {
     return(''
         + '\n'
         + '\n'
-        + `${translateText({language: data.language_code, text: 'Parameter configured by'})} <b><a href="tg://user?id=${data.id}">${data.first_name}${typeof(data.last_name) == 'string' ? ` ${data.last_name}` : ''}</a>.</b>`
+        + `${translateText({language: data.language_code, text: 'Parameter configured by'})} <b>${getUserName({data, lastName: true})}.</b>`
     );
 }
