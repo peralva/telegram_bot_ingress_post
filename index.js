@@ -39,6 +39,9 @@ const index = bot => {
     bot.command('list_parameters',      ctx => {require('./commands/list_parameters')(ctx); deleteCommands({ctx});  });
     bot.command('listar_parametros',    ctx => {require('./commands/list_parameters')(ctx); deleteCommands({ctx});  });
 
+    bot.command('statistic',            ctx => {require('./commands/statistic'      )(ctx); deleteCommands({ctx});  });
+    bot.command('estatistica',          ctx => {require('./commands/statistic'      )(ctx); deleteCommands({ctx});  });
+
     bot.on('callback_query',    require('./on/callback_query' ));
     bot.on('channel_post',      require('./on/channel_post'   ));
 }

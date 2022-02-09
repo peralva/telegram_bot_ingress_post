@@ -32,6 +32,8 @@ module.exports = ctx => {
             + '\n'
             + `${translateText({language, text: '/new_post: Reply to a message with this command to put it to a vote'})}.\n`
             + '\n'
+            + `${translateText({language, text: '/statistic: Display group statistics'})}.\n`
+            + '\n'
             + '\n'
             + `<b>${translateText({language, text: 'For more commands send me /help in private'})}.</b>`
         );
