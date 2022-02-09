@@ -48,7 +48,7 @@ module.exports = async ctx => {
             {
                 value: enabled,
                 user: ctx.update.message.from.id,
-                date: ctx.update.message.date
+                date: ctx.update.message.date * 1000
             }
         );
     }

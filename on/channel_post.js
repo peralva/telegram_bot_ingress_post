@@ -74,7 +74,7 @@ module.exports = async ctx => {
             {
                 value: ctx.update.channel_post.chat.id,
                 user: group.parameters.link_channel.user,
-                date: ctx.update.channel_post.date
+                date: ctx.update.channel_post.date * 1000
             }
         );
     } else {

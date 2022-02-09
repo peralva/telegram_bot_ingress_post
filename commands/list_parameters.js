@@ -43,7 +43,7 @@ module.exports = ctx => {
 
             text += (``
                 + `${translateText({language, text: `Configured by`})} ${getUserName({data, lastName: true})}\n`
-                + `${translateText({language, text: `Date`})}: ${new Date(parameters.delete_commands[0].date * 1000).toLocaleString()}\n`
+                + `${translateText({language, text: `Date`})}: ${new Date(parameters.delete_commands[0].date).toLocaleString()}\n`
             );
         }
 
@@ -75,7 +75,7 @@ module.exports = ctx => {
                 + `\n\n`
                 + `<b>${translateText({language, text: `Linked channels`})}:</b> ${channelData.username ? `@${channelData.username}` : channelData.title}\n`
                 + `${translateText({language, text: `Configured by`})} ${getUserName({data: userData, lastName: true})}\n`
-                + `${translateText({language, text: `Date`})}: ${new Date(parameters.channels[0].date * 1000).toLocaleString()}`
+                + `${translateText({language, text: `Date`})}: ${new Date(parameters.channels[0].date).toLocaleString()}`
             );
         }
     }
