@@ -18,7 +18,7 @@ module.exports = ctx => {
             + '\n'
             + `<b>${translateText({language, text: 'For more commands, add me to a group and type /help'})}.</b>`
         );
-    } else if(ctx.update.message.chat.type.includes('group')) {
+    } else if(ctx.update.message.chat.type == `supergroup`) {
         text = (''
             + `<b>${translateText({language, text: 'Group command list'})}:</b>\n`
             + '\n'

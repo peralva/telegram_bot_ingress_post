@@ -18,7 +18,7 @@ module.exports = async ctx => {
         enabled = !parameters.delete_commands;
 
         parameters.delete_commands = enabled;
-    } else if(ctx.update.message.chat.type.includes('group')) {
+    } else if(ctx.update.message.chat.type == `supergroup`) {
         let delete_commands = getGroup({token, id}).parameters.delete_commands;
 
         let isAdministrator;

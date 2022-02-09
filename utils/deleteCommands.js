@@ -16,7 +16,7 @@ module.exports = parameters => {
 
     if(ctx.update.message.chat.type == 'private') {
         deleteCommand = getUser({token, id: ctx.update.message.chat.id}).parameters.delete_commands;
-    } else if(ctx.update.message.chat.type.includes('group')) {
+    } else if(ctx.update.message.chat.type == `supergroup`) {
         let delete_commands = getGroup({token, id: ctx.update.message.chat.id}).parameters.delete_commands;
 
         deleteCommand = (true
@@ -28,7 +28,7 @@ module.exports = parameters => {
     if(deleteCommand) {
         ctx.deleteMessage(ctx.update.message.message_id).catch(err => {
             if(true
-                && ctx.update.message.chat.type.includes('group')
+                && ctx.update.message.chat.type == `supergroup`
                 && !err.response.ok
                 && err.response.error_code == 400
             ) {
