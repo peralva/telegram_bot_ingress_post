@@ -30,7 +30,10 @@ module.exports = ctx => {
             + '\n'
             + `${translateText({language, text: "/link_channel: Use to link the group to a channel. You can also use Telegram's native link"})}.\n`
             + '\n'
-            + `${translateText({language, text: '/new_post: Reply to a message with this command to put it to a vote'})}.\n`
+            + `${translateText({language, text: '/new_post: Reply to a message with this command to put it to a vote'})}. ${translateText({language, text: 'To post the message, you need'})}:\n`
+            + `- ${translateText({language, text: `The author's vote`})};\n`
+            + `- ${translateText({language, text: `The vote of at least one non-anonymous group administrator`})};\n`
+            + `- ${translateText({language, text: `Meet the minimum amount of votes configured`})}.\n`
             + '\n'
             + `${translateText({language, text: '/statistic: Display group statistics'})}.\n`
             + '\n'
