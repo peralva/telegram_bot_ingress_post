@@ -53,11 +53,14 @@ module.exports = async ctx => {
         );
     }
 
+    let text = `${translateText({language, text: 'Configuration'})} <b>${translateText({language, text: enabled ? 'enabled' : 'disabled'})}</b>.`;
+
+    if(ctx.update.message.chat.type == `supergroup`) {
+        text += getParameterConfigured({data: ctx.update.message.from});
+    }
+
     ctx.replyWithHTML(
-        (''
-            + `${translateText({language, text: 'Configuration'})} <b>${translateText({language, text: enabled ? 'enabled' : 'disabled'})}</b>.`
-            + getParameterConfigured({data: ctx.update.message.from})
-        ),
+        text,
         {reply_to_message_id: ctx.update.message.message_id}
     );
 
