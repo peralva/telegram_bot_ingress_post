@@ -10,7 +10,7 @@
 			},
 			"problemMatcher": [],
 			"label": "npm: test",
-			"detail": "START \"Bot\" nodemon -e js --trace-warnings"
+			"detail": "SET NODE_ENV=developer&&START \"Bot\" nodemon -e js --trace-warnings"
 		}
 	]
 }
