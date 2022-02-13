@@ -36,6 +36,15 @@ module.exports = ctx => {
         return;
     }
 
+    if(false
+        || ctx.update.message.reply_to_message.from.id == 777000
+        || ctx.update.message.reply_to_message.from.is_bot
+    ) {
+        ctx.update.message.reply_to_message.from = ctx.update.message.from;
+    } else if(ctx.update.message.from.is_bot) {
+        ctx.update.message.from = ctx.update.message.reply_to_message.from;
+    }
+
     if(true
         && ctx.update.message.from.is_bot
         && ctx.update.message.reply_to_message.from.is_bot
@@ -46,12 +55,6 @@ module.exports = ctx => {
         });
 
         return;
-    }
-
-    if(ctx.update.message.from.is_bot) {
-        ctx.update.message.from = ctx.update.message.reply_to_message.from;
-    } else if(ctx.update.message.reply_to_message.from.is_bot) {
-        ctx.update.message.reply_to_message.from = ctx.update.message.from;
     }
 
     if(ctx.update.message.from.id == ctx.update.message.reply_to_message.from.id) {
@@ -105,7 +108,7 @@ module.exports = ctx => {
                     inline_keyboard: [
                         [
                             {
-                                text: !ctx.update.message.reply_to_message.from.is_bot ? ctx.update.message.reply_to_message.from.first_name : `${translateText({language, text: "Anonymous"})}`,
+                                text: ctx.update.message.reply_to_message.from.first_name,
                                 callback_data: JSON.stringify(
                                     {
                                         author: ctx.update.message.reply_to_message.from.id
@@ -113,7 +116,7 @@ module.exports = ctx => {
                                 )
                             },
                             {
-                                text: !ctx.update.message.from.is_bot ? ctx.update.message.from.first_name : `${translateText({language, text: "Anonymous"})}`,
+                                text: ctx.update.message.from.first_name,
                                 callback_data: JSON.stringify(
                                     {
                                         author: ctx.update.message.from.id
