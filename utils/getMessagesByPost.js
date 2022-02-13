@@ -11,6 +11,6 @@ module.exports = parameters => {
 
     let group = getGroup({token, id: id_group});
 
-    let messages = group.messages.filter(element => element.ids.post == id_message);
+    let messages = group.messages.filter(element => element.ids.post && element.ids.post == id_message);
     return(messages);
 }
