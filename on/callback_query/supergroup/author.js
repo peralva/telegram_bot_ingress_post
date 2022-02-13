@@ -1,5 +1,5 @@
 const translateText = require("../../../../../utils/translateText");
-const getMessage = require("../../../utils/getMessage");
+const getMessageByController = require("../../../utils/getMessageByController");
 const getMessageVote = require("../../../utils/getMessageVote");
 const recordData = require("../../../utils/recordData");
 
@@ -8,7 +8,19 @@ module.exports = ctx => {
     let language = callback_query.from.language_code;
     let token = ctx.tg.token;
 
-    let message = getMessage({token, id_group: callback_query.message.chat.id, id_message: callback_query.message.message_id});
+    if(typeof(ctx.update.callback_query.message.reply_to_message) != 'object') {
+        ctx.editMessageText(
+            translateText({language, text: 'Original message has been deleted'}),
+            {
+                parse_mode: 'HTML'
+            }
+        );
+
+        return;
+    }
+
+    let message = getMessageByController({token, id_group: callback_query.message.chat.id, id_message: callback_query.message.message_id});
+    message.ids.post = ctx.update.callback_query.message.reply_to_message.message_id;
     message.author = callback_query.data;
     message.votes.push(callback_query.from.id);
 

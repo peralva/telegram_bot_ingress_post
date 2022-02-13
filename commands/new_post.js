@@ -1,5 +1,5 @@
 const translateText = require("../../../utils/translateText");
-const getMessage = require("../utils/getMessage");
+const getMessageByController = require("../utils/getMessageByController");
 const getMessageVote = require("../utils/getMessageVote");
 const recordData = require("../utils/recordData");
 const replyWithHTML = require("../utils/replyWithHTML");
@@ -10,7 +10,10 @@ module.exports = ctx => {
     let token = ctx.tg.token;
 
     if(ctx.update.message.chat.type != 'supergroup') {
-        replyWithHTML({ctx, text: `${translateText({language, text: 'This command can only be used in supergroup'})}.`});
+        replyWithHTML({
+            ctx,
+            text: `${translateText({language, text: 'This command can only be used in supergroup'})}.`
+        });
 
         return;
     }
@@ -43,17 +46,12 @@ module.exports = ctx => {
         });
 
         return;
-    } else if(true
-        && !(true
-            && !ctx.update.message.from.is_bot
-            && !ctx.update.message.reply_to_message.from.is_bot
-        )
-    ) {
-        if(ctx.update.message.from.is_bot) {
-            ctx.update.message.from = ctx.update.message.reply_to_message.from;
-        } else {
-            ctx.update.message.reply_to_message.from = ctx.update.message.from;
-        }
+    }
+
+    if(ctx.update.message.from.is_bot) {
+        ctx.update.message.from = ctx.update.message.reply_to_message.from;
+    } else if(ctx.update.message.reply_to_message.from.is_bot) {
+        ctx.update.message.reply_to_message.from = ctx.update.message.from;
     }
 
     if(ctx.update.message.from.id == ctx.update.message.reply_to_message.from.id) {
@@ -87,12 +85,13 @@ module.exports = ctx => {
                 }
             });
 
-            let message = getMessage({
+            let message = getMessageByController({
                 token,
                 id_group: ctx.update.message.chat.id,
                 id_message: result.message_id
             });
 
+            message.ids.post = ctx.update.message.reply_to_message.message_id;
             message.author = ctx.update.message.from.id;
             message.votes.push(ctx.update.message.from.id);
 

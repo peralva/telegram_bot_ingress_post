@@ -11,15 +11,13 @@ module.exports = parameters => {
 
     let group = getGroup({token, id: id_group});
 
-    if(typeof(group.messages) != 'object') {
-        group.messages = [];
-    }
-
-    let message = group.messages.find(element => element.id == id_message);
+    let message = group.messages.find(element => element.ids.controller == id_message);
 
     if(typeof(message) != 'object') {
         message = {
-            id: id_message,
+            ids: {
+                controller: id_message
+            },
             votes: []
         };
 

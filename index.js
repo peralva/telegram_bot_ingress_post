@@ -1,12 +1,24 @@
 const fs = require('fs');
 const deleteCommands = require('./utils/deleteCommands');
 
+const fixDatabase = token => {
+    global.bots[token].groups.forEach(element => element.messages.forEach(element => {
+        if(element.id) {
+            element.ids = {
+                controller: element.id
+            };
+
+            delete(element.id);
+        }
+    }));
+
+    require('./utils/recordData')({token});
+}
+
 const index = bot => {
     if(typeof(global.bots) != 'object') {
         global.bots = {};
     }
-
-    global.bots[bot.telegram.token] = {};
 
     if(fs.existsSync(`${__dirname}/data.json`)) {
         global.bots[bot.telegram.token] = require(`${__dirname}/data.json`);
@@ -15,6 +27,7 @@ const index = bot => {
     }
 
     // require('./utils/setCommands')({telegram: bot.telegram});
+    // fixDatabase(bot.telegram.token);
 
     bot.start(                          ctx => {require('./commands/start'          )(ctx); deleteCommands({ctx});  });
 
@@ -44,6 +57,7 @@ const index = bot => {
 
     bot.on('callback_query',    require('./on/callback_query' ));
     bot.on('channel_post',      require('./on/channel_post'   ));
+    bot.on('edited_message',    require('./on/edited_message' ));
 }
 
 module.exports = index;

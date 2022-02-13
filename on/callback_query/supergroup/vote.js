@@ -2,7 +2,7 @@ const translateText = require('../../../../../utils/translateText');
 const getGroup = require('../../../utils/getGroup');
 const getMessageVote = require('../../../utils/getMessageVote');
 const getUser = require('../../../utils/getUser');
-const getMessage = require('../../../utils/getMessage');
+const getMessageByController = require('../../../utils/getMessageByController');
 const setUserData = require('../../../utils/setUserData');
 const recordData = require('../../../utils/recordData');
 
@@ -11,7 +11,7 @@ module.exports = async ctx => {
     let language = callback_query.from.language_code;
     let token = ctx.tg.token;
     let parameters = getGroup({token, id: callback_query.message.chat.id}).parameters;
-    let message = getMessage({token, id_group: callback_query.message.chat.id, id_message: callback_query.message.message_id});
+    let message = getMessageByController({token, id_group: callback_query.message.chat.id, id_message: callback_query.message.message_id});
 
     let answerCbQueryText = '';
     let url = '';
