@@ -14,7 +14,7 @@ module.exports = parameters => {
 
     let user = getUser({token, id: message.author});
 
-    let text = `${translateText({language, text: 'Author'})}: ${getFactionIcon({faction: user.parameters.faction, withoutFaction: false})}<b>${getUserName({data: user.data, lastName: true})}</b>`;
+    let text = `${translateText({language, text: 'Author'})}: <b>${getUserName({data: user.data, lastName: true})}</b>`;
 
     for(let i = 0; i < message.votes.length; i++) {
         let user = getUser({token, id: message.votes[i]});
