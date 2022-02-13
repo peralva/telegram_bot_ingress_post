@@ -2,6 +2,8 @@ const translateText = require("../../../../../utils/translateText");
 const getMessageByController = require("../../../utils/getMessageByController");
 const getMessageVote = require("../../../utils/getMessageVote");
 const recordData = require("../../../utils/recordData");
+const setUserData = require("../../../utils/setUserData");
+
 
 module.exports = ctx => {
     let callback_query = ctx.update.callback_query;
@@ -23,6 +25,8 @@ module.exports = ctx => {
     message.ids.post = ctx.update.callback_query.message.reply_to_message.message_id;
     message.author = callback_query.data;
     message.votes.push(callback_query.from.id);
+
+    setUserData({token, data: ctx.update.callback_query.from});
 
     let {text, reply_markup} = getMessageVote({language, token, message});
 

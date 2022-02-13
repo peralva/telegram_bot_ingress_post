@@ -1,5 +1,6 @@
 const getMessagesByPost = require("../utils/getMessagesByPost");
 const getMessageVote = require("../utils/getMessageVote");
+const recordData = require("../utils/recordData");
 const setUserData = require("../utils/setUserData");
 
 module.exports = ctx => {
@@ -28,4 +29,6 @@ module.exports = ctx => {
             );
         }
     }
+
+    recordData({token});
 }

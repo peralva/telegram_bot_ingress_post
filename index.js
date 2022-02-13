@@ -27,7 +27,7 @@ const index = bot => {
     }
 
     // require('./utils/setCommands')({telegram: bot.telegram});
-    // fixDatabase(bot.telegram.token);
+    fixDatabase(bot.telegram.token);
 
     bot.start(                          ctx => {require('./commands/start'          )(ctx); deleteCommands({ctx});  });
 
